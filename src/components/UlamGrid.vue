@@ -5,7 +5,7 @@
             height: getCircleHeight(ulamCircles.length - 1) + sizeUnit,
             lineHeight: cellHeight + sizeUnit
          }"
-        ref="grid"
+         ref="grid"
     >
         <ulam-grid-circle
                 v-for="(circle, circleIndex) in ulamCircles"
@@ -28,103 +28,103 @@
 </template>
 
 <script>
-    import UlamGridCircle from './UlamGridCircle.vue';
+import UlamGridCircle from './UlamGridCircle.vue';
 
-    export default {
-        name: 'UlamGrid',
-        props: {
-            numbers: Array,
-            startDirection: {
-                type: String,
-                default: 'right',
-                validator: function (value) {
-                    return ['top', 'right', 'bottom', 'left'].indexOf(value) !== -1
-                }
-            },
-            rotationDirection: {
-                type: String,
-                default: 'counterclockwise',
-                validator: function (value) {
-                    return ['clockwise', 'counterclockwise'].indexOf(value) !== -1
-                }
-            },
-            cellWidth: {
-                type: Number,
-                default: 20
-            },
-            cellHeight: {
-                type: Number,
-                default: 20
-            },
-            sizeUnit: {
-                type: String,
-                default: 'px'
+export default {
+    name: 'UlamGrid',
+    props: {
+        numbers: Array,
+        startDirection: {
+            type: String,
+            default: 'right',
+            validator: function (value) {
+                return ['top', 'right', 'bottom', 'left'].indexOf(value) !== -1
             }
         },
-        components: {
-            UlamGridCircle
-        },
-        mounted() {
-            this.gridWidth = this.$refs.grid.clientWidth;
-        },
-        data() {
-            return {
-                gridWidth: undefined
+        rotationDirection: {
+            type: String,
+            default: 'counterclockwise',
+            validator: function (value) {
+                return ['clockwise', 'counterclockwise'].indexOf(value) !== -1
             }
         },
-        computed: {
-            ulamCircles() {
-                return this.numbersToCircles(this.numbers);
-            }
+        cellWidth: {
+            type: Number,
+            default: 20
         },
-        methods: {
-            getAllocatedCircleLength(circleIndex) {
-                if(circleIndex > 0) {
-                    return circleIndex * 8;
-                }
+        cellHeight: {
+            type: Number,
+            default: 20
+        },
+        sizeUnit: {
+            type: String,
+            default: 'px'
+        }
+    },
+    components: {
+        UlamGridCircle
+    },
+    mounted() {
+        this.gridWidth = this.$refs.grid.clientWidth;
+    },
+    data() {
+        return {
+            gridWidth: undefined
+        }
+    },
+    computed: {
+        ulamCircles() {
+            return this.numbersToCircles(this.numbers);
+        }
+    },
+    methods: {
+        getAllocatedCircleLength(circleIndex) {
+            if (circleIndex > 0) {
+                return circleIndex * 8;
+            }
 
-                return 1;
-            },
-            getCircleWidth(circleIndex) {
-                if(circleIndex > 0) {
-                    return (((circleIndex * 8) / 4) + 1) * this.cellWidth;
-                }
+            return 1;
+        },
+        getCircleWidth(circleIndex) {
+            if (circleIndex > 0) {
+                return (((circleIndex * 8) / 4) + 1) * this.cellWidth;
+            }
 
-                return this.cellWidth;
-            },
-            getCircleHeight(circleIndex) {
-                if(circleIndex > 0) {
-                    return (((circleIndex * 8) / 4) + 1) * this.cellHeight;
-                }
+            return this.cellWidth;
+        },
+        getCircleHeight(circleIndex) {
+            if (circleIndex > 0) {
+                return (((circleIndex * 8) / 4) + 1) * this.cellHeight;
+            }
 
-                return this.cellHeight;
-            },
-            numbersToCircles(arrayOfNumbers) {
-                const circles = [];
-                let tempCircle = [];
+            return this.cellHeight;
+        },
+        numbersToCircles(arrayOfNumbers) {
+            const circles = [];
+            let tempCircle = [];
 
-                arrayOfNumbers.forEach((number, index) => {
-                    tempCircle.push(number);
+            arrayOfNumbers.forEach((number, index) => {
+                tempCircle.push(number);
 
-                    if(circles.length > 0) {
-                        if(tempCircle.length === (8 * circles.length) || index === arrayOfNumbers.length - 1) {
-                            circles.push(tempCircle);
-                            tempCircle = [];
-                        }
-                    } else {
+                if (circles.length > 0) {
+                    if (tempCircle.length === (8 * circles.length) || index === arrayOfNumbers.length - 1) {
                         circles.push(tempCircle);
                         tempCircle = [];
                     }
-                });
+                } else {
+                    circles.push(tempCircle);
+                    tempCircle = [];
+                }
+            });
 
-                return circles;
-            }
+            return circles;
         }
     }
+}
 </script>
 
 <style scoped>
-    .ulam-grid {
-        position: relative;
-    }
+.ulam-grid {
+    position: relative;
+}
 </style>
